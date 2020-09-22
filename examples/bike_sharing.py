@@ -22,7 +22,7 @@
 
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-from QRNN import QRNN
+from queueing_rnn import QRNN
 import numpy as np
 from math import sqrt
 import matplotlib.pyplot as plt
@@ -54,7 +54,7 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 
 if __name__ == '__main__':
     
-    df = pd.read_csv(r"bike_day.csv")
+    df = pd.read_csv(r"\datasets\bike_day.csv")
     df = df.set_index(pd.DatetimeIndex(df["dteday"]))
     values = df.cnt.values.reshape(-1,1).astype('float32')
     
