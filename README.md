@@ -19,7 +19,11 @@ It is a compose of Simple RNN and [Random Neural Network](https://github.com/bil
 
 ## Comparison 📊
 
+In order to evaluate the performance of QRNN, it has been compared with LSTM, GRU and Simple RNN using Keras with TensorFlow backend. During the experiments, 4 different data sets ([google stock price](https://www.kaggle.com/medharawat/google-stock-price), [bike sharing](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset), [pm2.5 concentration](https://archive.ics.uci.edu/ml/datasets/Beijing+PM2.5+Data), [traffic volume](https://archive.ics.uci.edu/ml/datasets/Metro+Interstate+Traffic+Volume)) and 10 different optimization algorithms have been used. The mean square error distribution on the test set is given in the image below. As it seems QRNN manages to reach 3 lowest rms error out of 4. 
+
 ![Overall Comparison](test_results/overall_comparison.png)
+
+For more detailed results check the [test_results](https://github.com/bilkosem/queueing-rnn/tree/master/test_results) folder 🔎.
 
 ## Installation 🛠
 
