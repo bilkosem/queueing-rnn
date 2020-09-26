@@ -4,20 +4,20 @@
 
 # Table of contents
 
-- [What is Q-RNN?](#QRNN)
+- [What is Q-RNN?](#whatisqrnn)
 - [Comparison](#comparison)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
 
-## What is Q-RNN? 🤔
+## What is Q-RNN? 🤔 <a name="whatisqrnn"></a>
 ![Random Neuron](images/random_neuron.png)
 
 (Look of a Random Neuron [4])
 
 It is a compose of Simple RNN and [Random Neural Network](https://github.com/bilkosem/random_neural_network). Queueing RNN uses the fundamental math of Queueing Theory and G-Queues while combining it with the powerful architecture of Recurrent Neural Networks. For more detailed explanation about the theoretical background of QRNN check the [mathematical-model](https://github.com/bilkosem/queueing-rnn/tree/master/mathematical-model) folder, and references section. 
 
-## Comparison 📊
+## Comparison 📊 <a name="comparison"></a>
 
 In order to evaluate the performance of QRNN, it has been compared with LSTM, GRU and Simple RNN using Keras with TensorFlow backend. During the experiments, 4 different data sets ([google stock price](https://www.kaggle.com/medharawat/google-stock-price), [bike sharing](https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset), [pm2.5 concentration](https://archive.ics.uci.edu/ml/datasets/Beijing+PM2.5+Data), [traffic volume](https://archive.ics.uci.edu/ml/datasets/Metro+Interstate+Traffic+Volume)) and 10 different optimization algorithms have been used. The mean square error distribution on the test set is given in the image below. As it seems QRNN manages to reach 3 lowest rms error out of 4. 
 
@@ -25,7 +25,7 @@ In order to evaluate the performance of QRNN, it has been compared with LSTM, GR
 
 Check the [test_results](https://github.com/bilkosem/queueing-rnn/tree/master/test_results) folder to see detailed results 🔎.
 
-## Installation 🛠
+## Installation 🛠 <a name="installation"></a>
 
 Installing via [pip](https://pip.pypa.io/en/stable/) package manager:
 
@@ -41,7 +41,7 @@ cd queueing-rnn
 python setup.py install
 ```
 
-## Usage 👩‍💻
+## Usage 👩‍💻 <a name="usage"></a>
 
 ```python
 from queueing_rnn import QRNN
@@ -55,7 +55,7 @@ for s in range(samples):
     qrnn.backpropagation()
 ```
 Check the [examples](https://github.com/bilkosem/queueing-rnn/tree/master/examples) folder to see detailed use 🔎.
-## References 📚
+## References 📚 <a name="references"></a>
 
 [1] [Gelenbe, Erol. (1989). Random Neural Networks with Negative and Positive Signals and Product Form Solution. Neural Computation - NECO. 1. 502-510. 10.1162/neco.1989.1.4.502.](https://www.researchgate.net/publication/239294946_Random_Neural_Networks_with_Negative_and_Positive_Signals_and_Product_Form_Solution) 
 
@@ -66,6 +66,6 @@ Check the [examples](https://github.com/bilkosem/queueing-rnn/tree/master/exampl
 [4] [Hossam Abdelbaki (2020). rnnsimv2.zip (https://www.mathworks.com/matlabcentral/fileexchange/91-rnnsimv2-zip), MATLAB Central File Exchange. Retrieved September 22, 2020.](https://www.mathworks.com/matlabcentral/fileexchange/91-rnnsimv2-zip?s_tid=FX_rc1_behav)
 
 
-## License
+## License <a name="license"></a>
 
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
