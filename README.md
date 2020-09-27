@@ -15,7 +15,7 @@
 
 (Look of a Random Neuron [4])
 
-It is a compose of Simple RNN and [Random Neural Network](https://github.com/bilkosem/random_neural_network). Queueing RNN uses the fundamental math of Queueing Theory and G-Queues while combining it with the powerful architecture of Recurrent Neural Networks. For more detailed explanation about the theoretical background of QRNN check the [mathematical-model](https://github.com/bilkosem/queueing-rnn/tree/master/mathematical-model) folder, and references section. 
+It is a compose of [Simple RNN](https://github.com/bilkosem/simple-rnn_from_scratch) and [Random Neural Network](https://github.com/bilkosem/random_neural_network). Queueing RNN uses the fundamental math of Queueing Theory and G-Queues while combining it with the powerful architecture of Recurrent Neural Networks. For more detailed explanation about the theoretical background of QRNN check the [mathematical-model](https://github.com/bilkosem/queueing-rnn/tree/master/mathematical-model) folder and references section. 
 
 ## Comparison 📊 <a name="comparison"></a>
 
