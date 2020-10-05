@@ -7,7 +7,6 @@
 # Python Version: 3.7
 ###############################################################################
 
-
 import numpy as np
 import copy
 
@@ -248,7 +247,7 @@ class QRNN:
             d_Wih_m.append((d_input_layer_D.transpose()*d_hidden_layer_D).transpose())
 
             ######################## New Hidden Layer #########################
-            self.dh_list.append(d_hidden_layer)
+            #self.dh_list.append(d_hidden_layer)
             d_hidden_layer = self.horizontal_gradient(t) @ d_hidden_layer
             #değiştirebilirsin
 
