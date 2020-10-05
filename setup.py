@@ -1,17 +1,16 @@
 import setuptools
-
-with open("README.md", "r") as fh:
+with open("README.md", "r",encoding="utf8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="queueing_rnn",
-    version="1.0.3",
+    version="1.0.4",
     author="bilkosem",
     author_email="bilkos92@gmail.com",
     description="Queueing Recurrent Neural Network",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/bilkosem/QRNN-Queueing-Recurrent-Neural-Network",
+    url="https://github.com/bilkosem/queueing_rnn",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
