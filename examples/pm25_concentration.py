@@ -58,7 +58,7 @@ if __name__ == '__main__':
     
     # "pollution.csv" is simply reorganized version of the dataset given in the
     # ref 3. The reorgization process has been performed in ref 2.    
-    dataset = read_csv('\datasets\pollution.csv', header=0, index_col=0) 
+    dataset = read_csv('datasets\pollution.csv', header=0, index_col=0) 
     values = dataset.values
     # integer encode direction
     encoder = LabelEncoder()

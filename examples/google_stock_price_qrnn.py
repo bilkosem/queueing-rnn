@@ -3,8 +3,8 @@
 # Author: Bilgehan Kösem
 # E-mail: bilkos92@gmail.com
 # Date created: 07.18.2020
-# Date last modified: 07.18.2020
-# Python Version: 3.7
+# Date last modified: 08.11.2020
+# Python Version: 3.8
 ###############################################################################
 
 ###############################################################################
@@ -17,7 +17,7 @@
 # https://machinelearningmastery.com/multivariate-time-series-forecasting-lstms-keras/
 #
 # Access to Bike Sharing Dataset:
-# https://archive.ics.uci.edu/ml/datasets/bike+sharing+dataset
+# https://www.kaggle.com/medharawat/google-stock-price
 ###############################################################################
 
 import pandas as pd
@@ -54,44 +54,45 @@ def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 
 if __name__ == '__main__':
     
-    df = pd.read_csv(r"datasets\bike_day.csv")
-    df = df.set_index(pd.DatetimeIndex(df["dteday"]))
-    values = df.cnt.values.reshape(-1,1).astype('float32')
+    timestep = 60
+    dataset_train = pd.read_csv(r'datasets\Google_Stock_Price_Train.csv')
+    training_set = dataset_train.iloc[:, 1:2].values
+
+    dataset_test = pd.read_csv(r'datasets\Google_Stock_Price_Test.csv')
+    test_set = dataset_test.iloc[:, 1:2].values
+
+    dataset_total = pd.DataFrame(pd.concat((dataset_train['Open'], dataset_test['Open']), axis = 0))
+
+    sc = MinMaxScaler(feature_range = (0, 1))
+    dataset_total_scaled = sc.fit_transform(dataset_total)
     
-    # normalize features
-    scaler = MinMaxScaler(feature_range=(0, 1))
-    scaled = scaler.fit_transform(values)
-    # specify the number of lag hours
-    n_days = 60
-    n_features = 1
-    # frame as supervised learning
-    reframed = series_to_supervised(scaled, n_days, 1)
-    print(reframed.shape)
+    training_set_scaled = dataset_total_scaled[:len(training_set)]
     
-    # split into train and test sets
-    values = reframed.values
-    n_train_hours = int(len(df)*0.85) # %85 of the dataset will be used for training 
-    train = values[:n_train_hours, :]
-    test = values[n_train_hours:, :]
-    # split into input and outputs
-    n_obs = n_days * n_features
-    train_X, train_y = train[:, :n_obs], train[:, -n_features]
-    test_X, test_y = test[:, :n_obs], test[:, -n_features]
-    print(train_X.shape, len(train_X), train_y.shape)
-    # reshape input to be 3D [samples, timesteps, features]
-    train_X = train_X.reshape((train_X.shape[0], n_days, n_features))
-    test_X = test_X.reshape((test_X.shape[0], n_days, n_features))
-    print(train_X.shape, train_y.shape, test_X.shape, test_y.shape)
-    train_y=train_y.reshape(-1,1)
-        
+    X_train = []
+    y_train = []
+    for i in range(timestep, 1258):
+        X_train.append(training_set_scaled[i-timestep:i, 0])
+        y_train.append(training_set_scaled[i, 0])
+    X_train, train_y = np.array(X_train), np.array(y_train)
+    train_X = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+    train_y = train_y.reshape(-1,1)
+
+    inputs = dataset_total_scaled[len(dataset_total) - len(dataset_test) - 60:]
+    
+    X_test = []
+    for i in range(timestep, 80):
+        X_test.append(inputs[i-timestep:i, 0])
+    X_test = np.array(X_test)
+    test_X = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
+    test_y = sc.transform(test_set.reshape(-1,1))
+
     qrnn = QRNN([train_X.shape[-1],50,1],#3D Shaped Input
-                time_steps = n_days,
+                time_steps = timestep,
                 weight_scaler = 0.05,
                 loss_function='mse',
                 firing_rate_scaler=0.25,
                 learning_rate = 0.01,
-                optimizer='adadelta',
-                )
+                optimizer='amsgrad')
 
     outlist =[]
     outoutlist =[]
@@ -137,30 +138,40 @@ if __name__ == '__main__':
     
     y_prediction_test = np.atleast_2d(y_prediction_test).reshape(-1,1)
     y_prediction_train = np.atleast_2d(y_prediction_train).reshape(-1,1)
-    
+
     rmse_train = sqrt(mean_squared_error(train_y, y_prediction_train))
     rmse_test = sqrt(mean_squared_error(test_y, y_prediction_test))
     
     print("Test RMSE:",str('%.3f'%rmse_test))
-    print("Train RMSE:",str('%.3f'%rmse_train))# Inverse Transform
+    print("Train RMSE:",str('%.3f'%rmse_train))
     
-    plt.plot(test_y[:500], color = 'red', label = 'Real Bike Sharing Data')
-    plt.plot(y_prediction_test[:500], color = 'blue', label = 'Predicted Bike Sharing Data')
-    plt.title('Queueing RNN Bike Sharing Test Data')
-    plt.xlabel('Hours')
-    plt.ylabel('Normalised Bike Sharing Data')
+    plt.plot(test_y, color = 'red', label = 'Real Google Stock Price')
+    plt.plot(y_prediction_test[-len(test_y):], color = 'blue', label = 'Predicted Google Stock Price')
+    plt.title('Queueing RNN Google Stocking Price Test Set')
+    plt.xlabel('Day')
+    plt.ylabel('Normalised Google Stocking Price')
     plt.legend()
     plt.show()
     
-    plt.plot(train_y, color = 'red', label = 'Real Bike Sharing Data')
-    plt.plot(y_prediction_train, color = 'blue', label = 'Predicted Bike Sharing Data')
-    plt.title('Queueing RNN Bike Sharing Data Prediction')
-    plt.xlabel('Time')
-    plt.ylabel('Normalised Bike Sharing Data')
+    plt.plot(train_y, color = 'red', label = 'Real Google Stock Price')
+    plt.plot(y_prediction_train, color = 'blue', label = 'Predicted Google Stock Price')
+    plt.title('Queueing RNN Bike Sharing Data Training Set')
+    plt.xlabel('Day')
+    plt.ylabel('Normalised Google Stocking Price')
     plt.legend()
     plt.show()
 
     plt.plot(error_list, label='Train')
-    plt.title("Queueing RNN Bike Sharing Training Loss")
+    plt.title("Queueing RNN Google Stock Price Training Loss")
     plt.xlabel("Epoch")
     plt.ylabel("Root Mean Square Error")
+    
+
+
+
+    
+    
+    
+    
+    
+    
